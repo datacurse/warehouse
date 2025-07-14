@@ -73,9 +73,10 @@ export default function GamePage() {
         if (isObstacle[targetIndex]) return;
         const playerTile = engine.currentScene.tileMaps[0]!.getTileByPoint(player.pos);
         const playerIndex = playerTile ? (playerTile.x + playerTile.y * 10) : 0;
+        if (playerIndex === targetIndex) return;
         const path = astar.astar(astar.getNodeByIndex(playerIndex), astar.getNodeByIndex(targetIndex), false);
         if (path.length === 0) return;
-        path.forEach((n) => player.playerActionBuffer.push(parseInt(n.id.toString())));
+        path.forEach((n) => player.playerActionBuffer.push(new Vector(n.x, n.y)));
       });
 
       // Camera setup
