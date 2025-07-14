@@ -1,38 +1,40 @@
 import { Actor, Vector, EasingFunctions, Rectangle, Polygon, GraphicsGroup, Color } from "excalibur";
 
+const SIZE = 32
+
 export class Player extends Actor {
   playerActionBuffer: number[] = [];
   playerActionStatus: string = "idle";
 
   constructor() {
     super({
-      pos: new Vector(8, 8),
-      width: 16,
-      height: 16,
-      rotation: 0, // Initial facing right
+      pos: new Vector(SIZE / 2, SIZE / 2),
+      width: SIZE,
+      height: SIZE,
+      rotation: 0,
     });
 
     // Set up graphics internally
     const playerBody = new Rectangle({
-      width: 12,
-      height: 12,
-      color: Color.Blue,
+      width: SIZE,
+      height: SIZE,
+      color: Color.fromHex("#66A7FF"),
     });
-    playerBody.anchor = new Vector(0.5, 0.5);
+    // playerBody.origin = new Vector(0, 0);
     const chevronPoints = [
-      new Vector(-3, -4),
-      new Vector(3, 0),
-      new Vector(-3, 4),
+      new Vector(-SIZE / 4, -SIZE / 4),
+      new Vector(SIZE / 4, 0),
+      new Vector(-SIZE / 4, SIZE / 4),
     ];
     const chevron = new Polygon({
       points: chevronPoints,
-      color: Color.White,
+      color: Color.fromHex("#ECEEF2"),
     });
-    chevron.anchor = new Vector(0.5, 0.5);
+    // chevron.origin = new Vector(0.5, 0.5);
     const playerGroup = new GraphicsGroup({
       members: [
         { graphic: playerBody, offset: new Vector(0, 0) },
-        { graphic: chevron, offset: new Vector(0, 0) },
+        { graphic: chevron, offset: new Vector(SIZE / 4, SIZE / 4) },
       ],
     });
     this.graphics.use(playerGroup);
@@ -49,7 +51,7 @@ export class Player extends Actor {
   moveToTile(node: number) {
     const x = node % 10;
     const y = Math.floor(node / 10);
-    const target = new Vector(x * 16 + 8, y * 16 + 8);
+    const target = new Vector(x * SIZE + SIZE / 2, y * SIZE + SIZE / 2);
     const targetAngle = Math.atan2(target.y - this.pos.y, target.x - this.pos.x);
 
     const deltaAngle = Math.atan2(
@@ -67,7 +69,7 @@ export class Player extends Actor {
       this.actions.easeTo(target, 250, EasingFunctions.EaseInOutCubic);
     } else {
       // Just move
-      this.actions.easeTo(target, 500, EasingFunctions.EaseInOutCubic);
+      this.actions.easeTo(target, 250, EasingFunctions.EaseInOutCubic);
     }
     // Call method after actions complete
     this.actions.callMethod(() => {

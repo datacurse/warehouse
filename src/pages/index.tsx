@@ -29,19 +29,19 @@ export default function GamePage() {
       const tilemap = new TileMap({
         rows: 10,
         columns: 10,
-        tileWidth: 16,
-        tileHeight: 16,
+        tileWidth: 32,
+        tileHeight: 32,
       });
 
       // Loop and assign graphics
       let tileIndex = 0;
       for (let tile of tilemap.tiles) {
-        const fillColor = isObstacle[tileIndex] ? Color.Red : Color.Green;
+        const fillColor = isObstacle[tileIndex] ? Color.fromHex("#797A80") : Color.fromHex("#ECEEF2");
         const tileGraphic = new Rectangle({
-          width: 16,
-          height: 16,
+          width: 32,
+          height: 32,
           color: fillColor,
-          strokeColor: Color.Black,
+          strokeColor: Color.fromHex("#797A80"),
           lineWidth: 1,
         });
         tile.addGraphic(tileGraphic);
@@ -67,11 +67,11 @@ export default function GamePage() {
       // Setup click event
       engine.input.pointers.primary.on("down", (evt) => {
         if (!evt.worldPos || player.playerActionStatus === "moving") return;
-        const tile = engine.currentScene.tileMaps[0].getTileByPoint(evt.worldPos);
+        const tile = engine.currentScene.tileMaps[0]!.getTileByPoint(evt.worldPos);
         if (!tile) return;
         const targetIndex = tile.x + tile.y * 10;
         if (isObstacle[targetIndex]) return;
-        const playerTile = engine.currentScene.tileMaps[0].getTileByPoint(player.pos);
+        const playerTile = engine.currentScene.tileMaps[0]!.getTileByPoint(player.pos);
         const playerIndex = playerTile ? (playerTile.x + playerTile.y * 10) : 0;
         const path = astar.astar(astar.getNodeByIndex(playerIndex), astar.getNodeByIndex(targetIndex), false);
         if (path.length === 0) return;
@@ -79,8 +79,8 @@ export default function GamePage() {
       });
 
       // Camera setup
-      engine.currentScene.camera.pos = new Vector(80, 80);
-      engine.currentScene.camera.zoom = 3;
+      engine.currentScene.camera.pos = new Vector(32 * 5, 32 * 5);
+      engine.currentScene.camera.zoom = 1;
 
       engineRef.current = engine;
     }
