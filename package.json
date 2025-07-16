@@ -9,8 +9,8 @@
     "start": "waku start"
   },
   "dependencies": {
-    "@excaliburjs/plugin-pathfinding": "^0.30.0",
     "excalibur": "^0.30.3",
+    "koota": "^0.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-server-dom-webpack": "19.1.0",

@@ -1,35 +1,16 @@
+// src/pages/_layout.tsx  (still a server component)
 import '../styles.css';
-
 import type { ReactNode } from 'react';
+import { WorldProviderClient } from '@/components/WorldProviderClient';
 
 type RootLayoutProps = { children: ReactNode };
 
 export default async function RootLayout({ children }: RootLayoutProps) {
-  const data = await getData();
-
   return (
-    <div className="font-['Nunito']">
-      <meta name="description" content={data.description} />
-      <link rel="icon" type="image/png" href={data.icon} />
-      <main>{children}</main>
-    </div>
+    <WorldProviderClient>
+      <div className="font-['Nunito']">
+        <main>{children}</main>
+      </div>
+    </WorldProviderClient>
   );
 }
-
-
-const getData = async () => {
-  const data = {
-    description: 'An internet website!',
-    icon: '/images/favicon.png',
-  };
-
-  return data;
-};
-
-export const getConfig = async () => {
-  return {
-    render: 'static',
-  } as const;
-};
-
-
