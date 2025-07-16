@@ -1,9 +1,9 @@
-import { GameCanvasWrapper } from '@/components/game-canvas-wrapper';
+import { ExcaliburCanvas } from '@/components/ExcaliburCanvas';
 
 export default function HomePage() {
   return (
     <div className="w-screen h-screen">
-      <GameCanvasWrapper />
+      <ExcaliburCanvas />
     </div>
   );
 }
